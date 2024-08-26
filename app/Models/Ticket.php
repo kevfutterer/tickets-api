@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Ticket extends Model
 {
     use HasFactory;
+    
+    protected $fillable = ['title', 'status', 'description', 'user_id'];
 
     public function author()
     {
