@@ -43,6 +43,4 @@ class TicketFilter extends QueryFilter{
 
         return $this->builder->whereDate('updated_at', $value);
     }
-
-
 }
