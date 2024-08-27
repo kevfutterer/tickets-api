@@ -3,8 +3,9 @@
 namespace App\Http\Requests\Api\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Api\V1\BaseTicketRequest;
 
-class StoreTicketRequest extends FormRequest
+class StoreTicketRequest extends BaseTicketRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +27,7 @@ class StoreTicketRequest extends FormRequest
             'data.attributes.description' => 'required|string',
             'data.attributes.status' => 'required|string|in:A,C,H,X',
         ];
-
+        
         if ($this->route('tickets.store')) {
             $rules['data.relationships.author.data.id'] = 'required|integer';
         };
@@ -34,10 +35,10 @@ class StoreTicketRequest extends FormRequest
         return $rules;
     }
 
-    public function messages()
-    {
-        return [
-            'data.attributes.status' => 'The data.attributes.status value is invalid. Please use A,C,H or X'
-        ];
-    }
+    // public function messages()
+    // {
+    //     return [
+    //         'data.attributes.status' => 'The data.attributes.status value is invalid. Please use A,C,H or X'
+    //     ];
+    // }
 }
