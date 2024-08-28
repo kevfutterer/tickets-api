@@ -16,7 +16,7 @@ class UserPolicy
         //
     }
 
-    public function store(User $user, User $model)
+    public function store(User $user)
     {
         return $user->tokenCan(Abilities::CreateUser);
     }
@@ -26,7 +26,7 @@ class UserPolicy
         return $user->tokenCan(Abilities::DeleteUser);
     }
 
-    public function replace(User $user, User $model)
+    public function replace(User $user)
     {
         return $user->tokenCan(Abilities::ReplaceUser);
     }

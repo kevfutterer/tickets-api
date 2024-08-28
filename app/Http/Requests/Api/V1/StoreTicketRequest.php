@@ -29,7 +29,7 @@ class StoreTicketRequest extends BaseTicketRequest
             'data.attributes.title' => 'required|string',
             'data.attributes.description' => 'required|string',
             'data.attributes.status' => 'required|string|in:A,C,H,X',
-            $authorIdAttribute => 'integer|exists:users,id'
+            $authorIdAttribute => 'required|integer|exists:users,id'
         ];
         
         $user = $this->user();
