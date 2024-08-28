@@ -23,26 +23,30 @@ class StoreTicketRequest extends BaseTicketRequest
      */
     public function rules(): array
     {
+        $authorIdAttribute = $this->routeIs('tickets.store') ? 'data.relationships.author.data.id' : 'author';
+
         $rules =  [
             'data.attributes.title' => 'required|string',
             'data.attributes.description' => 'required|string',
             'data.attributes.status' => 'required|string|in:A,C,H,X',
-            'data.relationships.author.data.id' => 'required|integer|exists:users,id'
+            $authorIdAttribute => 'integer|exists:users,id'
         ];
         
         $user = $this->user();
-        if ($this->routeIs('tickets.store')) {
-            if ($user->tokenCan(Abilities::CreateOwnTicket)) {
-                $rules['data.relationships.author.data.id'] .= '|size:' . $user->id;
-            }
-        };
+
+        if ($user->tokenCan(Abilities::CreateOwnTicket)) {
+            $rules[$authorIdAttribute] . '|size:' . $user->id;
+        }
+
         return $rules;
     }
 
-    // public function messages()
-    // {
-    //     return [
-    //         'data.attributes.status' => 'The data.attributes.status value is invalid. Please use A,C,H or X'
-    //     ];
-    // }
+    protected function prepareForValidation()
+    {
+        if ($this->routeIs('authors.tickets.store')) {
+            $this->merge([
+                'author' => $this->route('author')
+            ]);
+        }
+    }
 }
